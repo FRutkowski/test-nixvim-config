@@ -459,7 +459,10 @@
         astro.enable = true; # AstroJS
         phpactor.enable = true; # PHP
         svelte.enable = false; # Svelte
-        vuels.enable = true; # Vue
+        volar = {
+          enable = true;
+          tslsIntegration = true;
+        };
         pyright.enable = true; # Python
         marksman.enable = true; # Markdown
         nil_ls.enable = true; # Nix
