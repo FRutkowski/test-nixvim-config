@@ -1,5 +1,13 @@
 { pkgs, ... }:
 {
+  imports = [
+    ./completion/cmp.nix
+    ./completion/snippets.nix
+    ./formaterrs/conform.nix
+    ./lsp/lsp.nix
+    ./utils/wtf.nix
+  ];
+
   plugins = {
     # Navigate Tmux with the same keybindings as Neovim
     tmux-navigator = {
@@ -212,16 +220,16 @@
         clojure = [ "clj-kondo" ];
         dockerfile = [ "hadolint" ];
         terraform = [ "tflint" ];
+        python = [ "mypy" ];
+      };
+      linters.mypy = {
+        cmd = "${pkgs.mypy}/bin/mypy";
+        args = [ "--ignore-missing-imports" ];
       };
     };
 
     # Trouble
     trouble = {
-      enable = true;
-    };
-
-    # Friendly Snippets
-    friendly-snippets = {
       enable = true;
     };
 
@@ -526,289 +534,10 @@
       enable = true;
     };
 
-    # Language server
-    lsp = {
-      enable = true;
-      servers = {
-        # Average webdev LSPs
-        # ts-ls.enable = true; # TS/JS
-        ts_ls.enable = true; # TS/JS
-        cssls.enable = true; # CSS
-        tailwindcss.enable = true; # TailwindCSS
-        html.enable = true; # HTML
-        astro.enable = true; # AstroJS
-        phpactor.enable = true; # PHP
-        svelte.enable = false; # Svelte
-        volar = {
-          enable = true;
-          tslsIntegration = true;
-        };
-        pyright.enable = true; # Python
-        marksman.enable = true; # Markdown
-        nil_ls.enable = true; # Nix
-        dockerls.enable = true; # Docker
-        bashls.enable = true; # Bash
-        clangd.enable = true; # C/C++
-        csharp_ls.enable = true; # C#
-        yamlls.enable = true; # YAML
-        ltex = {
-          enable = true;
-          settings = {
-            enabled = [
-              "astro"
-              "html"
-              "latex"
-              "markdown"
-              "text"
-              "tex"
-              "gitcommit"
-            ];
-            completionEnabled = true;
-            language = "en-US de-DE nl";
-            # dictionary = {
-            #   "nl-NL" = [
-            #     ":/home/liv/.local/share/nvim/ltex/nl-NL.txt"
-            #   ];
-            #   "en-US" = [
-            #     ":/home/liv/.local/share/nvim/ltex/en-US.txt"
-            #   ];
-            #   "de-DE" = [
-            #     ":/home/liv/.local/share/nvim/ltex/de-DE.txt"
-            #   ];
-            # };
-          };
-        };
-        gopls = {
-          # Golang
-          enable = true;
-          autostart = true;
-        };
-
-        lua_ls = {
-          # Lua
-          enable = true;
-          settings.telemetry.enable = false;
-        };
-
-        # Rust
-        rust_analyzer = {
-          enable = true;
-          installRustc = true;
-          installCargo = true;
-        };
-      };
-    };
-
-    lspsaga = {
-      enable = true;
-      beacon.enable = true;
-      ui.border = "rounded"; # One of none, single, double, rounded, solid, shadow
-      hover = {
-        openCmd = "!firfox";
-        openLink = "gx";
-      };
-      symbolInWinbar = {
-        enable = true; # Breadcrumbs
-        showFile = false;
-      };
-
-      codeAction = {
-        showServerName = true;
-        numShortcut = false;
-        onlyInCursor = false;
-        keys = {
-          exec = "<CR>";
-          quit = [
-            "<Esc>"
-            "q"
-          ];
-        };
-      };
-
-      lightbulb = {
-        enable = true;
-        sign = true;
-      };
-
-      rename.keys = {
-        exec = "<CR>";
-        quit = [
-          "<C-k>"
-          "<Esc>"
-        ];
-        select = "x";
-      };
-
-      outline = {
-        closeAfterJump = true;
-        layout = "normal"; # normal or float
-        winPosition = "right"; # left or right
-        keys = {
-          jump = "e";
-          quit = "q";
-          toggleOrJump = "o";
-        };
-      };
-
-      scrollPreview = {
-        scrollUp = "<C-d>";
-        scrollDown = "<C-u>";
-      };
-    };
-
-    which-key.settings.spec = [
-      {
-        __unkeyed-1 = "gp";
-        mode = "n";
-        group = "+peek";
-      }
-    ];
-
-    wtf = {
-      enable = true;
-      context = true;
-      popupType = "popup";
-      openaiApiKey = "boop"; # TODO: add API key
-      openaiModelId = "gpt-3.5-turbo";
-      searchEngine = "duck_duck_go"; # | "google" | "stack_overflow" | "github" | "phind" | "perplexity";
-      # hooks.requestFinished = ""; # TODO: add notification here
-    };
-
-    # Dashboard
     alpha = {
       enable = true;
       theme = "dashboard";
       # iconsEnabled = true; # Deprecated
-    };
-
-    # Even more snippets
-    nvim-snippets = {
-      enable = false;
-      settings = {
-        create_autocmd = true;
-        create_cmp_source = true;
-        extended_filetypes = {
-          typescript = [
-            "javascript"
-          ];
-        };
-        friendly_snippets = true;
-        global_snippets = [
-          "all"
-        ];
-        ignored_filetypes = [
-          #  "lua"
-        ];
-        search_paths = [
-          {
-            __raw = "vim.fn.stdpath('config') .. '/snippets'";
-          }
-        ];
-      };
-    };
-
-    cmp-emoji = {
-      enable = true;
-    };
-
-    cmp = {
-      enable = true;
-      settings = {
-        completion = {
-          completeopt = "menu,menuone,noinsert";
-        };
-        autoEnableSources = true;
-        experimental = {
-          ghost_text = true;
-        };
-        performance = {
-          debounce = 60;
-          fetchingTimeout = 200;
-          maxViewEntries = 30;
-        };
-        snippet = {
-          expand = ''
-            function(args)
-              require('luasnip').lsp_expand(args.body)
-            end
-          '';
-        };
-        formatting = {
-          fields = [
-            "kind"
-            "abbr"
-            "menu"
-          ];
-        };
-        sources = [
-          { name = "nvim_lsp"; }
-          { name = "emoji"; }
-          {
-            name = "buffer"; # text within current buffer
-            option.get_bufnrs.__raw = "vim.api.nvim_list_bufs";
-            keywordLength = 3;
-          }
-          # { name = "copilot"; } # enable/disable copilot
-          {
-            name = "path"; # file system paths
-            keywordLength = 3;
-          }
-          {
-            name = "luasnip"; # snippets
-            keywordLength = 3;
-          }
-        ];
-
-        window = {
-          completion = {
-            border = "solid";
-          };
-          documentation = {
-            border = "solid";
-          };
-        };
-
-        mapping = {
-          "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
-          "<C-j>" = "cmp.mapping.select_next_item()";
-          "<C-k>" = "cmp.mapping.select_prev_item()";
-          "<C-e>" = "cmp.mapping.abort()";
-          "<C-b>" = "cmp.mapping.scroll_docs(-4)";
-          "<C-f>" = "cmp.mapping.scroll_docs(4)";
-          "<C-Space>" = "cmp.mapping.complete()";
-          "<CR>" = "cmp.mapping.confirm({ select = true })";
-          "<S-CR>" = "cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })";
-          "<C-l>" = ''
-            cmp.mapping(function()
-              if luasnip.expand_or_locally_jumpable() then
-                luasnip.expand_or_jump()
-              end
-            end, { 'i', 's' })
-          '';
-          "<C-h>" = ''
-            cmp.mapping(function()
-              if luasnip.locally_jumpable(-1) then
-                luasnip.jump(-1)
-              end
-            end, { 'i', 's' })
-          '';
-        };
-      };
-    };
-    cmp-nvim-lsp = {
-      enable = true; # LSP
-    };
-    cmp-buffer = {
-      enable = true;
-    };
-    cmp-path = {
-      enable = true; # file system paths
-    };
-    cmp_luasnip = {
-      enable = true; # snippets
-    };
-    cmp-cmdline = {
-      enable = true; # autocomplete for cmdline
     };
 
     # bufferline = {
@@ -833,17 +562,6 @@
     #     };
     #   };
     # };
-
-    lspkind = {
-      enable = true;
-      symbolMap = {
-        Copilot = "";
-      };
-      extraOptions = {
-        maxwidth = 50;
-        ellipsis_char = "...";
-      };
-    };
 
     schemastore = {
       enable = true;
