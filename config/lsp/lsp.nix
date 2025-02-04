@@ -26,67 +26,67 @@
               ignore.__raw = ''{ '*' }'';
             };
           };
-          ruff = {
-            enable = true;
-            onAttach.function = ''
-              if client.name == 'ruff' then
-                -- Disable hover in favor of Pyright
-                client.server_capabilities.hoverProvider = false
-              end
-            '';
+        };
+        ruff = {
+          enable = true;
+          onAttach.function = ''
+            if client.name == 'ruff' then
+              -- Disable hover in favor of Pyright
+              client.server_capabilities.hoverProvider = false
+            end
+          '';
+        };
+        marksman.enable = true; # Markdown
+        nil_ls.enable = true; # Nix
+        dockerls.enable = true; # Docker
+        bashls.enable = true; # Bash
+        clangd.enable = true; # C/C++
+        csharp_ls.enable = true; # C#
+        yamlls.enable = true; # YAML
+        ltex = {
+          enable = true;
+          settings = {
+            enabled = [
+              "astro"
+              "html"
+              "latex"
+              "markdown"
+              "text"
+              "tex"
+              "gitcommit"
+            ];
+            completionEnabled = true;
+            language = "en-US de-DE nl";
+            # dictionary = {
+            #   "nl-NL" = [
+            #     ":/home/liv/.local/share/nvim/ltex/nl-NL.txt"
+            #   ];
+            #   "en-US" = [
+            #     ":/home/liv/.local/share/nvim/ltex/en-US.txt"
+            #   ];
+            #   "de-DE" = [
+            #     ":/home/liv/.local/share/nvim/ltex/de-DE.txt"
+            #   ];
+            # };
           };
-          marksman.enable = true; # Markdown
-          nil_ls.enable = true; # Nix
-          dockerls.enable = true; # Docker
-          bashls.enable = true; # Bash
-          clangd.enable = true; # C/C++
-          csharp_ls.enable = true; # C#
-          yamlls.enable = true; # YAML
-          ltex = {
-            enable = true;
-            settings = {
-              enabled = [
-                "astro"
-                "html"
-                "latex"
-                "markdown"
-                "text"
-                "tex"
-                "gitcommit"
-              ];
-              completionEnabled = true;
-              language = "en-US de-DE nl";
-              # dictionary = {
-              #   "nl-NL" = [
-              #     ":/home/liv/.local/share/nvim/ltex/nl-NL.txt"
-              #   ];
-              #   "en-US" = [
-              #     ":/home/liv/.local/share/nvim/ltex/en-US.txt"
-              #   ];
-              #   "de-DE" = [
-              #     ":/home/liv/.local/share/nvim/ltex/de-DE.txt"
-              #   ];
-              # };
-            };
-          };
-          gopls = {
-            # Golang
-            enable = true;
-            autostart = true;
-          };
+        };
+        gopls = {
+          # Golang
+          enable = true;
+          autostart = true;
+        };
 
-          lua_ls = {
-            # Lua
-            enable = true;
-            settings.telemetry.enable = false;
-          };
+        lua_ls = {
+          # Lua
+          enable = true;
+          settings.telemetry.enable = false;
+        };
 
-          # Rust
-          rust_analyzer = {
-            enable = true;
-            installRustc = true;
-            installCargo = true;
-          };
+        # Rust
+        rust_analyzer = {
+          enable = true;
+          installRustc = true;
+          installCargo = true;
         };
       };
     };
