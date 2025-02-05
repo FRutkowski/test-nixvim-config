@@ -37,7 +37,7 @@
 
     {
       action = "<cmd>Telescope live_grep<CR>";
-      key = "<leader>fw";
+      key = "<leader>sg";
     }
     {
       action = "<cmd>Telescope find_files<CR>";
@@ -45,7 +45,7 @@
     }
     {
       action = "<cmd>Telescope git_commits<CR>";
-      key = "<leader>sg";
+      key = "<leader>gc";
     }
     {
       action = "<cmd>Telescope oldfiles<CR>";

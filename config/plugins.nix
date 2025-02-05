@@ -746,7 +746,22 @@
     -- }
          })  '';
 
-  colorschemes.catppuccin.enable = true;
+    colorschemes.gruvbox.enable = true;
+    # colorschemes.catppuccin = {
+    #   enable = true;
+    #   settings = {
+    #       color_overrides.latte = {
+    #         background = "#9d8b70";
+    #       };
+    #       flavour = "frappe";
+    #       integrations = {
+    #         cmp = true;
+    #         gitsigns = true;
+    #         nvimtree = true;
+    #         treesitter = true;
+    #       };
+    #   };
+    # };
 
   # colorschemes.catppuccin = {
   #   enable = true;
